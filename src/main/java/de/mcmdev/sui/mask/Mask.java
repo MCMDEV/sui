@@ -4,6 +4,7 @@ import de.mcmdev.sui.Gui;
 import de.mcmdev.sui.slot.Slot;
 
 import java.util.*;
+import java.util.function.Function;
 
 /** A mask that can be used to mark slots using a string representation of each line. */
 public class Mask {
@@ -19,11 +20,14 @@ public class Mask {
                 });
     }
 
+    public static Function<Integer, Comparator<Point>> HORIZONTAL = rows -> Comparator.comparingInt(value -> value.getX() + (value.getY() * 9));
+    public static Function<Integer, Comparator<Point>> VERTICAL = rows -> Comparator.comparingInt(value -> value.getY() + (value.getX() * rows));
+
     public static Builder builder(int rows) {
-        return new Builder(rows, (o1, o2) -> o1.getX() + (o1.getY() * 9) - o2.getX() + (o2.getY() * 9));
+        return new Builder(rows, HORIZONTAL);
     }
 
-    public static Builder builder(int rows, Comparator<Point> comparator) {
+    public static Builder builder(int rows, Function<Integer, Comparator<Point>> comparator) {
         return new Builder(rows, comparator);
     }
 
@@ -52,9 +56,9 @@ public class Mask {
         private final Map<Point, Character> chars;
         private int currentRow = 0;
 
-        Builder(int rows, Comparator<Point> slotComparator) {
+        Builder(int rows, Function<Integer, Comparator<Point>> slotComparator) {
             this.rows = rows;
-            this.chars = new TreeMap<>(slotComparator);
+            this.chars = new TreeMap<>(slotComparator.apply(rows));
         }
 
         /**

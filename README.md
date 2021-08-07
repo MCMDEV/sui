@@ -10,3 +10,5 @@ I loved in some libraries.
 because it's what I've been using the most.
 
 [canvas](https://github.com/IPVP-MC/canvas) - This library has also inspired helper, but has some other cool features which I've drawn inspiration from.
+
+[ChickenPat](https://github.com/ChickenPat) - Big help with the default mask comparators

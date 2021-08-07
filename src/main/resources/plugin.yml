@@ -1,8 +1,5 @@
-name: SuiPlugin
+name: sui
 version: 1.0
 author: MCMDEV
 api-version: 1.16
 main: de.mcmdev.sui.SuiPlugin
-commands:
-  test:
-    description: Test command
