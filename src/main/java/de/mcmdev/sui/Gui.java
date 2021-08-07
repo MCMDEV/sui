@@ -30,7 +30,7 @@ public abstract class Gui {
     private final Player player;
     private final Inventory handle;
     private final Map<Integer, Slot> slotMap = new ConcurrentHashMap<>();
-    private String title;
+    private final String title;
     private boolean opened;
     private boolean firstDraw;
 
@@ -71,6 +71,15 @@ public abstract class Gui {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Returns the title of this Gui.
+     *
+     * @return The title
+     */
+    public String getTitle() {
+        return title;
     }
 
     public Inventory getHandle() {
