@@ -3,7 +3,6 @@ package de.mcmdev.sui;
 import de.mcmdev.sui.item.ClickableItem;
 import de.mcmdev.sui.slot.SimpleSlot;
 import de.mcmdev.sui.slot.Slot;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,7 @@ public abstract class Gui {
     private final Player player;
     private final Inventory handle;
     private final Map<Integer, Slot> slotMap = new ConcurrentHashMap<>();
-    private Component title;
+    private String title;
     private boolean opened;
     private boolean firstDraw;
 
@@ -42,7 +41,7 @@ public abstract class Gui {
      * @param title The title of the gui
      * @param rows The amount of rows in the gui
      */
-    public Gui(Player player, Component title, int rows) {
+    public Gui(Player player, String title, int rows) {
         this.guiEventListener = new GuiEventListener();
         this.player = player;
         this.title = title;
