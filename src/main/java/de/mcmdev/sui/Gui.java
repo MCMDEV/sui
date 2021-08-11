@@ -11,6 +11,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -231,6 +232,13 @@ public abstract class Gui {
             }
 
             slot.handleClick(event);
+        }
+
+        @EventHandler
+        private void onInventoryClose(InventoryCloseEvent event)    {
+            if (event.getInventory() != handle) return;
+            if (event.getPlayer() != player) return;
+            close();
         }
 
         @EventHandler
