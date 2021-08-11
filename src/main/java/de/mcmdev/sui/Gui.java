@@ -220,6 +220,7 @@ public abstract class Gui {
             if (event.getClickedInventory() == null) return;
             if (event.getClickedInventory() != handle) return;
             if (event.getWhoClicked() != player) return;
+            if(!opened) return;
             event.setCancelled(true);
 
             int slotId = event.getRawSlot();
@@ -238,6 +239,7 @@ public abstract class Gui {
         private void onInventoryClose(InventoryCloseEvent event)    {
             if (event.getInventory() != handle) return;
             if (event.getPlayer() != player) return;
+            if(!opened) return;
             close();
         }
 
@@ -245,30 +247,35 @@ public abstract class Gui {
         private void onInventoryDrag(InventoryDragEvent event) {
             if (event.getInventory() != handle) return;
             if (event.getWhoClicked() != player) return;
+            if(!opened) return;
             event.setCancelled(true);
         }
 
         @EventHandler
         public void onDeath(PlayerDeathEvent event) {
             if (event.getEntity() != player) return;
+            if(!opened) return;
             close();
         }
 
         @EventHandler
         public void onQuit(PlayerQuitEvent event) {
             if (event.getPlayer() != player) return;
+            if(!opened) return;
             close();
         }
 
         @EventHandler
         public void onChangeWorld(PlayerChangedWorldEvent event) {
             if (event.getPlayer() != player) return;
+            if(!opened) return;
             close();
         }
 
         @EventHandler
         public void onTeleport(PlayerTeleportEvent event) {
             if (event.getPlayer() != player) return;
+            if(!opened) return;
             close();
         }
     }
