@@ -189,6 +189,14 @@ public abstract class Gui {
         return firstDraw;
     }
 
+    /**
+     * Removes all items and click handlers from the gui.
+     */
+    public void clear() {
+        this.handle.clear();
+        this.slotMap.values().forEach(slot -> slot.setClickHandler(null));
+    }
+
     /** Opens the Gui and registers all the listeners. */
     public void open() {
         if (this.opened) {
