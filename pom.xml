@@ -6,7 +6,7 @@
 
     <groupId>de.mcmdev</groupId>
     <artifactId>sui</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

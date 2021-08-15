@@ -52,13 +52,34 @@ public class Mask {
     }
 
     public static class Builder {
-        private final int rows;
         private final Map<Point, Character> chars;
-        private int currentRow = 0;
+        private int rows = 0;
 
         Builder(int rows, Function<Integer, Comparator<Point>> slotComparator) {
-            this.rows = rows;
             this.chars = new TreeMap<>(slotComparator.apply(rows));
+        }
+
+        /**
+         * Returns the line counter.
+         *
+         * @return Amount of rows set
+         */
+        public int getRows() {
+            return rows;
+        }
+
+        /**
+         * Counts the number of occurrences of a character in the mask.
+         *
+         * @param lookupCharacter The character to lookup
+         * @return The amount of characters
+         */
+        public int countChars(char lookupCharacter)   {
+            int counter = 0;
+            for (Character value : chars.values()) {
+                if(value == lookupCharacter) counter++;
+            }
+            return counter;
         }
 
         /**
@@ -70,11 +91,10 @@ public class Mask {
         public Builder pattern(String pattern) {
             char[] patternChars = pattern.toCharArray();
             for (int i = 0; i < patternChars.length; i++) {
-                this.chars.put(new Point(i, currentRow), patternChars[i]);
+                this.chars.put(new Point(i, rows), patternChars[i]);
             }
-            if (currentRow < rows) {
-                currentRow++;
-            }
+
+            rows++;
             return this;
         }
 
