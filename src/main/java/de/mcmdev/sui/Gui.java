@@ -5,6 +5,7 @@ import de.mcmdev.sui.slot.SimpleSlot;
 import de.mcmdev.sui.slot.Slot;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -227,6 +228,9 @@ public abstract class Gui {
 
     private class GuiEventListener implements Listener {
 
+        private final boolean useClickSounds = JavaPlugin.getPlugin(SuiPlugin.class).isUseClickSound();
+        private final Sound clickSound = JavaPlugin.getPlugin(SuiPlugin.class).getClickSound();
+
         @EventHandler
         private void onInventoryClick(InventoryClickEvent event) {
             if (event.getClickedInventory() == null) return;
@@ -244,6 +248,9 @@ public abstract class Gui {
                 throw new IllegalStateException("This should not happen.");
             }
 
+            if(useClickSounds)  {
+                player.playSound(player.getLocation(), clickSound, 1, 1);
+            }
             slot.handleClick(event);
         }
 
