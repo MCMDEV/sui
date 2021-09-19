@@ -6,6 +6,6 @@ public class SuiPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //Just a stub plugin for gui listeners to hook into
+        // Just a stub plugin for gui listeners to hook into
     }
 }

@@ -212,11 +212,15 @@ public abstract class Gui {
     }
 
     /** Closes the Gui and unregisters all the listeners. */
-    private void close() {
-        opened = false;
+    public void close() {
         if (player.getOpenInventory().getTopInventory() == handle) {
             player.closeInventory();
         }
+        closeInternally();
+    }
+
+    private void closeInternally()  {
+        opened = false;
         HandlerList.unregisterAll(guiEventListener);
         handle.clear();
     }
@@ -248,7 +252,7 @@ public abstract class Gui {
             if (event.getInventory() != handle) return;
             if (event.getPlayer() != player) return;
             if(!opened) return;
-            close();
+            closeInternally();
         }
 
         @EventHandler
