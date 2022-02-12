@@ -5,16 +5,16 @@ import de.mcmdev.sui.item.ClickableItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
-public interface Slot {
+public interface Slot<G extends Gui> {
 
     /**
      * Returns the Gui which uses this slot.
      *
      * @return The gui
      */
-    Gui getGui();
+    G getGui();
 
     /**
      * Returns the inventory slot index this slot represents.
@@ -52,7 +52,7 @@ public interface Slot {
      *
      * @param item The clickable item
      */
-    void setItem(ClickableItem item);
+    void setItem(ClickableItem<G> item);
 
     /**
      * Sets an ItemStack without changing the click handler to this slot.
@@ -66,7 +66,7 @@ public interface Slot {
      *
      * @param consumer The click consumer.
      */
-    void setClickHandler(Consumer<InventoryClickEvent> consumer);
+    void setClickHandler(BiConsumer<G, InventoryClickEvent> consumer);
 
     void handleClick(InventoryClickEvent event);
 }

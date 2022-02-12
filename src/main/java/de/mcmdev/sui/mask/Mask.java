@@ -7,28 +7,28 @@ import java.util.*;
 import java.util.function.Function;
 
 /** A mask that can be used to mark slots using a string representation of each line. */
-public class Mask {
+public class Mask<G extends Gui> {
 
-    private final Map<Character, List<Slot>> slotMap = new HashMap<>();
+    private final Map<Character, List<Slot<G>>> slotMap = new HashMap<>();
 
-    Mask(Gui gui, Builder builder) {
+    Mask(G gui, Builder<G> builder) {
         builder.chars.forEach(
                 (point, character) -> {
-                    List<Slot> slots =
+                    List<Slot<G>> slots =
                             slotMap.computeIfAbsent(character, unused -> new LinkedList<>());
-                    slots.add(gui.getSlot(point.x, point.y));
+                    slots.add((Slot<G>) gui.getSlot(point.x, point.y));
                 });
     }
 
     public static Function<Integer, Comparator<Point>> HORIZONTAL = rows -> Comparator.comparingInt(value -> value.getX() + (value.getY() * 9));
     public static Function<Integer, Comparator<Point>> VERTICAL = rows -> Comparator.comparingInt(value -> value.getY() + (value.getX() * rows));
 
-    public static Builder builder(int rows) {
-        return new Builder(rows, HORIZONTAL);
+    public static <G extends Gui> Builder<G> builder(int rows) {
+        return new Builder<>(rows, HORIZONTAL);
     }
 
-    public static Builder builder(int rows, Function<Integer, Comparator<Point>> comparator) {
-        return new Builder(rows, comparator);
+    public static <G extends Gui> Builder<G> builder(int rows, Function<Integer, Comparator<Point>> comparator) {
+        return new Builder<>(rows, comparator);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Mask {
      *
      * @return The map
      */
-    public Map<Character, List<Slot>> getSlots() {
+    public Map<Character, List<Slot<G>>> getSlots() {
         return slotMap;
     }
 
@@ -47,11 +47,11 @@ public class Mask {
      * @param c The character to lookup
      * @return The slot list
      */
-    public List<Slot> getSlots(char c) {
+    public List<Slot<G>> getSlots(char c) {
         return slotMap.get(c);
     }
 
-    public static class Builder {
+    public static class Builder<G extends Gui> {
         private final Map<Point, Character> chars;
         private int rows = 0;
 
@@ -88,7 +88,7 @@ public class Mask {
          * @param pattern The pattern
          * @return The builder itself
          */
-        public Builder pattern(String pattern) {
+        public Builder<G> pattern(String pattern) {
             char[] patternChars = pattern.toCharArray();
             for (int i = 0; i < patternChars.length; i++) {
                 this.chars.put(new Point(i, rows), patternChars[i]);
@@ -104,8 +104,8 @@ public class Mask {
          * @param gui The gui to use for building the mask
          * @return The mask
          */
-        public Mask build(Gui gui) {
-            return new Mask(gui, this);
+        public Mask<G> build(G gui) {
+            return new Mask<>(gui, this);
         }
     }
 
