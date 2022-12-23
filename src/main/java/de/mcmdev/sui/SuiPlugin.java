@@ -5,22 +5,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SuiPlugin extends JavaPlugin {
 
-    private boolean useClickSound;
-    private Sound clickSound;
-
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
-        this.useClickSound = getConfig().getBoolean("useClickSound", false);
-        this.clickSound = Sound.valueOf(getConfig().getString("clickSound", "UI_BUTTON_CLICK"));
-    }
+        boolean useClickSound = getConfig().getBoolean("useClickSound", false);
+        Sound clickSound = Sound.valueOf(getConfig().getString("clickSound", "UI_BUTTON_CLICK"));
 
-    public boolean isUseClickSound() {
-        return useClickSound;
-    }
-
-    public Sound getClickSound() {
-        return clickSound;
+        Sui.provideInstance(new Sui(this, useClickSound, clickSound));
     }
 }

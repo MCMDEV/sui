@@ -206,8 +206,7 @@ public abstract class Gui {
         firstDraw = true;
         redraw();
         firstDraw = false;
-        Bukkit.getPluginManager()
-                .registerEvents(guiEventListener, JavaPlugin.getPlugin(SuiPlugin.class));
+        Bukkit.getPluginManager().registerEvents(guiEventListener, Sui.getInstance().getPlugin());
         player.openInventory(this.handle);
         this.opened = true;
     }
@@ -228,8 +227,8 @@ public abstract class Gui {
 
     private class GuiEventListener implements Listener {
 
-        private final boolean useClickSounds = JavaPlugin.getPlugin(SuiPlugin.class).isUseClickSound();
-        private final Sound clickSound = JavaPlugin.getPlugin(SuiPlugin.class).getClickSound();
+        private final boolean useClickSounds = Sui.getInstance().isUseClickSound();
+        private final Sound clickSound = Sui.getInstance().getClickSound();
 
         @EventHandler
         private void onInventoryClick(InventoryClickEvent event) {
