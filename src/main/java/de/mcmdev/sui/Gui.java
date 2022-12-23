@@ -32,7 +32,7 @@ public abstract class Gui {
     private final GuiEventListener guiEventListener;
     private final Player player;
     private final Inventory handle;
-    private final Map<Integer, Slot<? extends Gui>> slotMap = new ConcurrentHashMap<>();
+    private final Map<Integer, Slot> slotMap = new ConcurrentHashMap<>();
     private final Component title;
     private boolean opened;
     private boolean firstDraw;
@@ -56,7 +56,7 @@ public abstract class Gui {
 
     private void initSlot() {
         for (int i = 0; i < this.handle.getSize(); i++) {
-            slotMap.put(i, new SimpleSlot<>(this, i, i % 9, i / 9));
+            slotMap.put(i, new SimpleSlot(this, i, i % 9, i / 9));
         }
     }
 
@@ -95,7 +95,7 @@ public abstract class Gui {
      * @param index The inventory slot index
      * @return The slot
      */
-    public Slot<? extends Gui> getSlot(int index) {
+    public Slot getSlot(int index) {
         return slotMap.get(index);
     }
 
@@ -106,7 +106,7 @@ public abstract class Gui {
      * @param y The y position, starting with zero.
      * @return The slot
      */
-    public Slot<? extends Gui> getSlot(int x, int y) {
+    public Slot getSlot(int x, int y) {
         return getSlot(x + (y * 9));
     }
 
@@ -220,13 +220,10 @@ public abstract class Gui {
         closeInternally();
     }
 
-    public void onClose() {}
-
     private void closeInternally()  {
         opened = false;
         HandlerList.unregisterAll(guiEventListener);
         handle.clear();
-        onClose();
     }
 
     private class GuiEventListener implements Listener {

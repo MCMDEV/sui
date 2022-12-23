@@ -1,17 +1,16 @@
 package de.mcmdev.sui.item;
 
-import de.mcmdev.sui.Gui;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-public class ClickableItem<G extends Gui> {
+public class ClickableItem {
 
     private final ItemStack itemStack;
-    private BiConsumer<G, InventoryClickEvent> consumer;
+    private Consumer<InventoryClickEvent> consumer;
 
-    public ClickableItem(ItemStack itemStack, BiConsumer<G, InventoryClickEvent> consumer) {
+    public ClickableItem(ItemStack itemStack, Consumer<InventoryClickEvent> consumer) {
         this.itemStack = itemStack;
         this.consumer = consumer;
     }
@@ -24,7 +23,7 @@ public class ClickableItem<G extends Gui> {
         return itemStack;
     }
 
-    public BiConsumer<G, InventoryClickEvent> getConsumer() {
+    public Consumer<InventoryClickEvent> getConsumer() {
         return consumer;
     }
 }

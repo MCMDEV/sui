@@ -5,17 +5,17 @@ import de.mcmdev.sui.item.ClickableItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-public class SimpleSlot<G extends Gui> implements Slot<G> {
+public class SimpleSlot implements Slot {
 
-    private final G gui;
+    private final Gui gui;
     private final int id;
     private final int x;
     private final int y;
-    private BiConsumer<G, InventoryClickEvent> clickHandler;
+    private Consumer<InventoryClickEvent> clickHandler;
 
-    public SimpleSlot(G gui, int id, int x, int y) {
+    public SimpleSlot(Gui gui, int id, int x, int y) {
         this.gui = gui;
         this.id = id;
         this.x = x;
@@ -23,7 +23,7 @@ public class SimpleSlot<G extends Gui> implements Slot<G> {
     }
 
     @Override
-    public G getGui() {
+    public Gui getGui() {
         return gui;
     }
 
@@ -53,7 +53,7 @@ public class SimpleSlot<G extends Gui> implements Slot<G> {
     }
 
     @Override
-    public void setItem(ClickableItem<G> item) {
+    public void setItem(ClickableItem item) {
         setItem(item.getItemStack());
         if (item.getConsumer() != null) {
             setClickHandler(item.getConsumer());
@@ -66,14 +66,14 @@ public class SimpleSlot<G extends Gui> implements Slot<G> {
     }
 
     @Override
-    public void setClickHandler(BiConsumer<G, InventoryClickEvent> consumer) {
+    public void setClickHandler(Consumer<InventoryClickEvent> consumer) {
         this.clickHandler = consumer;
     }
 
     @Override
     public void handleClick(InventoryClickEvent event) {
         if (clickHandler == null) return;
-        clickHandler.accept(gui, event);
+        clickHandler.accept(event);
     }
 
     @Override
