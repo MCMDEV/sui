@@ -1,11 +1,11 @@
-package de.mcmdev.sui;
+package de.mcmdev.sui.gui;
 
-import de.mcmdev.sui.item.ClickableItem;
-import de.mcmdev.sui.slot.SimpleSlot;
-import de.mcmdev.sui.slot.Slot;
+import de.mcmdev.sui.Sui;
+import de.mcmdev.sui.item.GuiItem;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,7 +55,7 @@ public abstract class Gui {
 
     private void initSlot() {
         for (int i = 0; i < this.handle.getSize(); i++) {
-            slotMap.put(i, new SimpleSlot(this, i, i % 9, i / 9));
+            slotMap.put(i, new Slot(this, i, i % 9, i / 9));
         }
     }
 
@@ -116,7 +115,7 @@ public abstract class Gui {
      * @param index The inventory slot index
      * @param item The item to be set
      */
-    public void setItem(int index, ClickableItem item) {
+    public void setItem(int index, GuiItem item) {
         getSlot(index).setItem(item);
     }
 
@@ -127,7 +126,7 @@ public abstract class Gui {
      * @param y The slot y position
      * @param item The item to be set
      */
-    public void setItem(int x, int y, ClickableItem item) {
+    public void setItem(int x, int y, GuiItem item) {
         getSlot(x, y).setItem(item);
     }
 
@@ -145,7 +144,7 @@ public abstract class Gui {
      *
      * @param item The item to be set
      */
-    public void addItem(ClickableItem item) {
+    public void addItem(GuiItem item) {
         int firstEmptySlot = getFirstEmptySlot();
         if (firstEmptySlot == -1) return;
         setItem(firstEmptySlot, item);
@@ -156,8 +155,8 @@ public abstract class Gui {
      *
      * @param items The items to be set
      */
-    public void addItem(Iterable<ClickableItem> items) {
-        for (ClickableItem item : items) {
+    public void addItem(Iterable<GuiItem> items) {
+        for (GuiItem item : items) {
             addItem(item);
         }
     }
@@ -167,7 +166,7 @@ public abstract class Gui {
      *
      * @param item The item to be used
      */
-    public void fill(ClickableItem item) {
+    public void fill(GuiItem item) {
         this.fill(item, false);
     }
 
@@ -177,7 +176,7 @@ public abstract class Gui {
      * @param item The item to be used
      * @param force If true, replaces all slots, otherwise only places into unused slots
      */
-    public void fill(ClickableItem item, boolean force) {
+    public void fill(GuiItem item, boolean force) {
         for (int i = 0; i < this.handle.getSize(); i++) {
             if (force || this.handle.getItem(i) == null) {
                 setItem(i, item);
@@ -228,7 +227,7 @@ public abstract class Gui {
     private class GuiEventListener implements Listener {
 
         private final boolean useClickSounds = Sui.getInstance().isUseClickSound();
-        private final Sound clickSound = Sui.getInstance().getClickSound();
+        private final Key clickSound = Sui.getInstance().getClickSound();
 
         @EventHandler
         private void onInventoryClick(InventoryClickEvent event) {
@@ -248,7 +247,7 @@ public abstract class Gui {
             }
 
             if(useClickSounds)  {
-                player.playSound(player.getLocation(), clickSound, 1, 1);
+                player.playSound(Sound.sound(clickSound, Sound.Source.MASTER, 1, 1));
             }
             slot.handleClick(event);
         }

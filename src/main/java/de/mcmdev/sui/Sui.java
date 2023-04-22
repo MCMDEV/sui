@@ -1,5 +1,6 @@
 package de.mcmdev.sui;
 
+import net.kyori.adventure.key.Key;
 import org.bukkit.Sound;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,15 +12,15 @@ public class Sui {
         instance = sui;
     }
 
-    static Sui getInstance() {
+    public static Sui getInstance() {
         return instance;
     }
 
     private final JavaPlugin plugin;
     private final boolean useClickSound;
-    private final Sound clickSound;
+    private final Key clickSound;
 
-    public Sui(JavaPlugin plugin, boolean useClickSound, Sound clickSound) {
+    public Sui(JavaPlugin plugin, boolean useClickSound, Key clickSound) {
         this.plugin = plugin;
         this.useClickSound = useClickSound;
         this.clickSound = clickSound;
@@ -33,7 +34,7 @@ public class Sui {
         return useClickSound;
     }
 
-    public Sound getClickSound() {
+    public Key getClickSound() {
         return clickSound;
     }
 }

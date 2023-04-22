@@ -5,17 +5,17 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
-public class ClickableItem {
+public class GuiItem {
 
     private final ItemStack itemStack;
     private Consumer<InventoryClickEvent> consumer;
 
-    public ClickableItem(ItemStack itemStack, Consumer<InventoryClickEvent> consumer) {
+    public GuiItem(ItemStack itemStack, Consumer<InventoryClickEvent> consumer) {
         this.itemStack = itemStack;
         this.consumer = consumer;
     }
 
-    public ClickableItem(ItemStack itemStack) {
+    public GuiItem(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 

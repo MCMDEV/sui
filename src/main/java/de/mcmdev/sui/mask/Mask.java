@@ -1,7 +1,7 @@
 package de.mcmdev.sui.mask;
 
-import de.mcmdev.sui.Gui;
-import de.mcmdev.sui.slot.Slot;
+import de.mcmdev.sui.gui.Gui;
+import de.mcmdev.sui.gui.Slot;
 
 import java.util.*;
 import java.util.function.Function;

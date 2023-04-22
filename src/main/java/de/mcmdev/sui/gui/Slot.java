@@ -1,13 +1,12 @@
-package de.mcmdev.sui.slot;
+package de.mcmdev.sui.gui;
 
-import de.mcmdev.sui.Gui;
-import de.mcmdev.sui.item.ClickableItem;
+import de.mcmdev.sui.item.GuiItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
-public class SimpleSlot implements Slot {
+public class Slot {
 
     private final Gui gui;
     private final int id;
@@ -15,62 +14,56 @@ public class SimpleSlot implements Slot {
     private final int y;
     private Consumer<InventoryClickEvent> clickHandler;
 
-    public SimpleSlot(Gui gui, int id, int x, int y) {
+    public Slot(Gui gui, int id, int x, int y) {
         this.gui = gui;
         this.id = id;
         this.x = x;
         this.y = y;
     }
 
-    @Override
     public Gui getGui() {
         return gui;
     }
 
-    @Override
     public int getIndex() {
         return id;
     }
 
-    @Override
     public int getX() {
         return x;
     }
 
-    @Override
     public int getY() {
         return y;
     }
 
-    @Override
     public void removeItem() {
         this.gui.getHandle().clear(id);
     }
 
-    @Override
-    public ItemStack getItem() {
+    public ItemStack getItemStack() {
         return this.gui.getHandle().getItem(id);
     }
 
-    @Override
-    public void setItem(ClickableItem item) {
-        setItem(item.getItemStack());
+    public Consumer<InventoryClickEvent> getClickHandler() {
+        return clickHandler;
+    }
+
+    public void setItem(GuiItem item) {
+        setItemStack(item.getItemStack());
         if (item.getConsumer() != null) {
             setClickHandler(item.getConsumer());
         }
     }
 
-    @Override
-    public void setItem(ItemStack item) {
+    public void setItemStack(ItemStack item) {
         this.gui.getHandle().setItem(id, item);
     }
 
-    @Override
     public void setClickHandler(Consumer<InventoryClickEvent> consumer) {
         this.clickHandler = consumer;
     }
 
-    @Override
     public void handleClick(InventoryClickEvent event) {
         if (clickHandler == null) return;
         clickHandler.accept(event);
@@ -78,7 +71,7 @@ public class SimpleSlot implements Slot {
 
     @Override
     public String toString() {
-        return "SimpleSlot{" +
+        return "Slot{" +
                 "id=" + id +
                 ", x=" + x +
                 ", y=" + y +
